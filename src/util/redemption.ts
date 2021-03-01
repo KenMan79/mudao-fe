@@ -45,14 +45,13 @@ export const redemption = async(
         { pubkey: fundReceivingAccount, isSigner: false, isWritable: true },
         { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
       ],
-      data: Buffer.from(Uint8Array.of(0, ...new BN(clientRedemptionAmount).toArray("le", 8))),
+      data: Buffer.from(Uint8Array.of(1, ...new BN(clientRedemptionAmount).toArray("le", 8))),
     });
 
     const tx = new Transaction().add(redemptionIx);
     await connection.sendTransaction(
       tx,
-      [clientAccount, fundId],
+      [clientAccount, mintAuthority, fundId],
       {skipPreflight: false, preflightCommitment: "singleGossip"},
     );
 };
-  
