@@ -6,6 +6,7 @@ export default function Test() {
   const [clientPrivateKey, setClientPrivateKey] = useState("");
   const [clientTokenAccount, setClientTokenAccount] = useState("");
   const [clientReceivingAccount, setClientReceivingAccount] = useState("");
+  const [mintAuthority, setMintAuthority] = useState("");
   const [mint, setMint] = useState("");
   const [fund, setFund] = useState("");
   const [fundReceivingAccount, setFundReceivingAccount] = useState("");
@@ -27,8 +28,8 @@ export default function Test() {
       clientTokenAccount,
       clientReceivingAccount,
       amount,
+      mintAuthority,
       mint,
-      fund,
       fundReceivingAccount,
     );
   };
@@ -39,6 +40,7 @@ export default function Test() {
       clientReceivingAccount,
       clientTokenAccount,
       amount,
+      mintAuthority,
       mint,
       fund,
       fundReceivingAccount,
@@ -71,6 +73,14 @@ export default function Test() {
             className="display-block"
             type="text"
             onChange={e => setClientReceivingAccount(e.target.value)}
+          />
+        </div>
+        <div className="mb-1">
+          <label>Mint Authority</label>
+          <input
+            className="display-block"
+            type="text"
+            onChange={e => setMintAuthority(e.target.value)}
           />
         </div>
         <div className="mb-1">
