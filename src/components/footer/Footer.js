@@ -1,5 +1,6 @@
-import React from 'react'
-import logo from '../../assets/logo.svg'
+import React from "react";
+import logo from "../../assets/logo.svg";
+
 export default function Footer(props) {
     return (
         <div className={`flex md:flex-row flex-col  justify-between md:items-center items-start py-6 px-4 ${props.color}`}>
@@ -15,7 +16,7 @@ export default function Footer(props) {
                         PRODUCTS
                     </p>
                     <p className="text-sm font-poppins font-normal cursor-pointer">
-                      GOVERNANCE
+                        GOVERNANCE
                     </p>
                     <p className="text-sm font-poppins font-normal cursor-pointer">
                         About
@@ -29,10 +30,10 @@ export default function Footer(props) {
                         TWITTER
                     </p>
                     <p className="text-sm font-poppins font-normal cursor-pointer">
-                        TELLEGRAM
+                        TELEGRAM
                     </p>
                 </div>
             </div>
         </div>
-    )
+    );
 }

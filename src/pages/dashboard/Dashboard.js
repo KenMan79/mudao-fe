@@ -1,11 +1,11 @@
-import React from 'react'
-import Header from "../../components/header"
-import Footer from "../../components/footer"
-import logoS from "../../assets/logoS.svg"
-import logo from "../../assets/logo.svg"
-import icon2 from "../../assets/icon2.svg"
-import icon3 from "../../assets/icon3.svg"
-export default function Dashboard(props) {
+import React from "react";
+import Header from "../../components/header/Header.js";
+import Footer from "../../components/footer/Footer.js";
+import logoS from "../../assets/logoS.svg";
+import logo from "../../assets/logo.svg";
+import icon2 from "../../assets/icon2.svg";
+import icon3 from "../../assets/icon3.svg";
+export default function Dashboard() {
     return (
         <div>
             <Header buttonClass="border-2 border-black" logo={logo} color="" lineClass="bg-black" />
@@ -204,5 +204,5 @@ export default function Dashboard(props) {
             </div>
             <Footer/>
         </div>
-    )
+    );
 }
