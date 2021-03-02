@@ -9,6 +9,7 @@ import {
 } from "@solana/web3.js";
 
 import BN from "bn.js";
+//import { targetCluster, COMMITMENT } from "./targetCluster";
 
 const connection = new Connection("http://localhost:8899", "singleGossip");
 
@@ -17,15 +18,14 @@ export const subscription = async(
   clientTokenAccountPubkey: string,
   clientReceivingAccountPubkey: string,
   clientTransferAmount: number,
-  mintAuthorityPrivateByteArray: string,
+  mintAuthorityPubkey: string,
   mintPubkey: string,
   fundReceivingAccountPubkey: string) => {
     const clientDecodedPrivateKey = clientPrivateKeyByteArray.split(',').map(s => parseInt(s));
     const clientAccount = new Account(clientDecodedPrivateKey);
     const clientTokenAccount = new PublicKey(clientTokenAccountPubkey);
     const clientReceivingAccount = new PublicKey(clientReceivingAccountPubkey);
-    const mintAuthorityDecodedPrivateKey = mintAuthorityPrivateByteArray.split(',').map(s => parseInt(s));
-    const mintAuthority = new Account(mintAuthorityDecodedPrivateKey);
+    const mintAuthority = new PublicKey(mintAuthorityPubkey);
     const mint = new PublicKey(mintPubkey);
     const fundReceivingAccount = new PublicKey(fundReceivingAccountPubkey);
     const FUND_PROGRAM_ID = new PublicKey("4rN7fSdF75xWuEhpgNFfRjLHfvF9ZkGWeKNMYVTCu1uJ");
@@ -36,7 +36,7 @@ export const subscription = async(
         { pubkey: clientAccount.publicKey, isSigner: true, isWritable: false },
         { pubkey: clientTokenAccount, isSigner: false, isWritable: true },
         { pubkey: clientReceivingAccount, isSigner: false, isWritable: true },
-        { pubkey: mintAuthority.publicKey, isSigner: true, isWritable: false },
+        { pubkey: mintAuthority, isSigner: false, isWritable: false },
         { pubkey: mint, isSigner: false, isWritable: true },
         { pubkey: fundReceivingAccount, isSigner: false, isWritable: true },
         { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
@@ -47,7 +47,7 @@ export const subscription = async(
     const tx = new Transaction().add(subscriptionIx);
     await connection.sendTransaction(
       tx,
-      [clientAccount, mintAuthority],
+      [clientAccount],
       {skipPreflight: false, preflightCommitment: "singleGossip"},
     );
     console.log("Success?");

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { subscription } from "../../util/subscription";
-import { redemption } from "../../util/redemption";
+import { subscription } from "../../solana/subscription";
+import { redemption } from "../../solana/redemption";
 
 export default function Test() {
   const [clientPrivateKey, setClientPrivateKey] = useState("");

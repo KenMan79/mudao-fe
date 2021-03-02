@@ -17,19 +17,17 @@ export const redemption = async(
   clientBurnAccountPubkey: string,
   clientReceivingAccountPubkey: string,
   clientRedemptionAmount: number,
-  mintAuthorityPrivateByteArray: string,
+  mintAuthorityPubkey: string,
   mintPubkey: string,
-  fundPrivateKeyByteArray: string,
+  fundAuthorityPubkey: string,
   fundRedeemingAccountPubkey: string) => {
     const clientTokenAccount = new PublicKey(clientBurnAccountPubkey);
     const clientReceivingAccount = new PublicKey(clientReceivingAccountPubkey);
     const clientDecodedPrivateKey = clientPrivateKeyByteArray.split(',').map(s => parseInt(s));
     const clientAccount = new Account(clientDecodedPrivateKey);
-    const mintAuthorityDecodedPrivateKey = mintAuthorityPrivateByteArray.split(',').map(s => parseInt(s));
-    const mintAuthority = new Account(mintAuthorityDecodedPrivateKey);
+    const mintAuthority = new PublicKey(mintAuthorityPubkey);
     const mint = new PublicKey(mintPubkey);
-    const fundDecodedPrivateKey = fundPrivateKeyByteArray.split(',').map(s => parseInt(s));
-    const fundId = new Account(fundDecodedPrivateKey);
+    const fundAuthority = new PublicKey(fundAuthorityPubkey);
     const fundReceivingAccount = new PublicKey(fundRedeemingAccountPubkey);
     const FUND_PROGRAM_ID = new PublicKey("4rN7fSdF75xWuEhpgNFfRjLHfvF9ZkGWeKNMYVTCu1uJ");
 
@@ -39,9 +37,9 @@ export const redemption = async(
         { pubkey: clientAccount.publicKey, isSigner: true, isWritable: false },
         { pubkey: clientTokenAccount, isSigner: false, isWritable: true },
         { pubkey: clientReceivingAccount, isSigner: false, isWritable: true },
-        { pubkey: mintAuthority.publicKey, isSigner: true, isWritable: false },
+        { pubkey: mintAuthority, isSigner: false, isWritable: false },
         { pubkey: mint, isSigner: false, isWritable: true },
-        { pubkey: fundId.publicKey, isSigner: true, isWritable: false },
+        { pubkey: fundAuthority, isSigner: false, isWritable: false },
         { pubkey: fundReceivingAccount, isSigner: false, isWritable: true },
         { pubkey: TOKEN_PROGRAM_ID, isSigner: false, isWritable: false },
       ],
@@ -51,7 +49,7 @@ export const redemption = async(
     const tx = new Transaction().add(redemptionIx);
     await connection.sendTransaction(
       tx,
-      [clientAccount, mintAuthority, fundId],
+      [clientAccount],
       {skipPreflight: false, preflightCommitment: "singleGossip"},
     );
 };
